@@ -19,7 +19,7 @@ class LocalHealthyRecipesDatasource implements HealthyRecipesDatasource {
               ).toHealthyRecipeEntity(),
             )
             .toList();
-
+    //print('RECETAS .. ${newRecipes.length}');
     return newRecipes; //retronamos los videos
   }
 }

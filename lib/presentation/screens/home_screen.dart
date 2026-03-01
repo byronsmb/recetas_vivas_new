@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recetas_vivas/presentation/widgets/recipes_category.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -55,66 +56,7 @@ class HomeScreen extends StatelessWidget {
               ),
               SizedBox(height: 20),
               Text('Explorar por ingrediente', style: styleText.titleMedium),
-              SizedBox(
-                height: 100,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-
-                  children: [
-                    Container(
-                      width: 62,
-                      margin: EdgeInsets.symmetric(horizontal: 8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          CircleAvatar(
-                            radius: 30,
-                            child: ClipOval(
-                              child: Image.asset(
-                                'assets/icons/carrot_icon.png',
-                                width: 60,
-                                height: 60,
-                                fit: BoxFit.cover, // puedes cambiar esto
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                            'Item ',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    Container(
-                      width: 62,
-                      margin: EdgeInsets.symmetric(horizontal: 8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          CircleAvatar(
-                            radius: 30,
-                            child: ClipOval(
-                              child: Image.asset(
-                                'assets/icons/avocado_icon.png',
-                                width: 60,
-                                height: 60,
-                                fit: BoxFit.cover, // puedes cambiar esto
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                            'Item ',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              RecipesCategory(),
               SizedBox(height: 20),
               Text('Categorias populares', style: styleText.titleMedium),
               Row(

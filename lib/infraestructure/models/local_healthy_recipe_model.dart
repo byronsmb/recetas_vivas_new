@@ -19,16 +19,26 @@ class LocalHealthyRecipeModel {
 
   factory LocalHealthyRecipeModel.fromJson(Map<String, dynamic> json) {
     return LocalHealthyRecipeModel(
-      name: json['name'],
-      videoUrl: json['videoUrl'],
-      imageUrl: json['imageUrl'],
+      name: json['name'] ?? '',
+      videoUrl: json['videoUrl'] ?? '',
+      imageUrl: json['imageUrl'] ?? '',
 
-      ingredientCategories: (json['ingredientCategory'] as List)
-          .map((e) => IngredientCategory.values.firstWhere((c) => c.name == e))
+      ingredientCategories: (json['ingredientCategory'] as List<dynamic>? ?? [])
+          .map(
+            (e) => IngredientCategory.values.firstWhere(
+              (c) => c.name == e,
+              orElse: () => IngredientCategory.values.first,
+            ),
+          )
           .toList(),
 
-      recipeTypes: (json['recipeType'] as List)
-          .map((e) => RecipeType.values.firstWhere((t) => t.name == e))
+      recipeTypes: (json['recipeType'] as List<dynamic>? ?? [])
+          .map(
+            (e) => RecipeType.values.firstWhere(
+              (t) => t.name == e,
+              orElse: () => RecipeType.values.first,
+            ),
+          )
           .toList(),
     );
   }

@@ -30,9 +30,9 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => RecipeProvider(
-            healthyRecipesRepository: healthyRecipesRepository,
-          ),
+          create: (_) =>
+              RecipeProvider(healthyRecipesRepository: healthyRecipesRepository)
+                ..loadRecipes(),
         ),
       ],
       child: MaterialApp(
