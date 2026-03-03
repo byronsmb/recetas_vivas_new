@@ -5,6 +5,9 @@ class RecipesListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(title: Text('deidjei')),
+      body: Placeholder(),
+    );
   }
 }

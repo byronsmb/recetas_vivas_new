@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recetas_vivas/presentation/widgets/recipes_category.dart';
+import 'package:recetas_vivas/presentation/widgets/recipes_type.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -15,7 +16,7 @@ class HomeScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               SearchFood(),
               Card(
@@ -57,31 +58,9 @@ class HomeScreen extends StatelessWidget {
               SizedBox(height: 20),
               Text('Explorar por ingrediente', style: styleText.titleMedium),
               RecipesCategory(),
-              SizedBox(height: 20),
+              SizedBox(height: 15),
               Text('Categorias populares', style: styleText.titleMedium),
-              Row(
-                children: [
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: Text('Postres'),
-                  ),
-                  SizedBox(width: 10),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: Text('Salsas'),
-                  ),
-                ],
-              ),
+              RecipesType(),
             ],
           ),
         ),
@@ -142,19 +121,3 @@ class _SearchFoodState extends State<SearchFood> {
     );
   }
 }
-/*
-
-Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.4,
-              color: Colors.red,
-            ),
-          ),
-          Text('Explorar por ingrediente'),
-          ListView(children: [CircleAvatar()]),
-        ],
-      )
-      */

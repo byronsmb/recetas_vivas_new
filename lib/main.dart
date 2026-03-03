@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:recetas_vivas/config/router/app_router.dart';
 import 'package:recetas_vivas/infraestructure/datasources/local_healthy_recipes_datasource_impl.dart';
 import 'package:recetas_vivas/infraestructure/repositories/healthy_recipes_repository_impl.dart';
 import 'package:recetas_vivas/presentation/screens/home_screen.dart';
@@ -35,11 +36,11 @@ class MyApp extends StatelessWidget {
                 ..loadRecipes(),
         ),
       ],
-      child: MaterialApp(
+      child: MaterialApp.router(
+        routerConfig: appRouter,
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
-        home: HomeScreen(),
       ),
     );
   }

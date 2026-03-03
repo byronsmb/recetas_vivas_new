@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:recetas_vivas/domain/entities/healthy_recipe.dart';
 import 'package:recetas_vivas/domain/enums/ingredient_category.dart';
@@ -24,31 +25,36 @@ class RecipesCategory extends StatelessWidget {
         itemBuilder: (context, index) {
           final category = categories[index];
 
-          return Container(
-            width: 65,
-            margin: EdgeInsets.symmetric(horizontal: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  radius: 30,
-                  child: ClipOval(
-                    child: Image.asset(
-                      category.imagePath,
-                      width: 60,
-                      height: 60,
-                      fit: BoxFit.cover, // puedes cambiar esto
+          return InkWell(
+            onTap: () {
+              context.push('/recipes-list');
+            },
+            child: Container(
+              width: 65,
+              margin: EdgeInsets.symmetric(horizontal: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    radius: 30,
+                    child: ClipOval(
+                      child: Image.asset(
+                        category.imagePath,
+                        width: 60,
+                        height: 60,
+                        fit: BoxFit.cover, // puedes cambiar esto
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 8),
-                Text(
-                  category.label,
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
+                  SizedBox(height: 8),
+                  Text(
+                    category.label,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
             ),
           );
         },
