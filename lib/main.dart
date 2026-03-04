@@ -5,7 +5,7 @@ import 'package:recetas_vivas/infraestructure/datasources/local_healthy_recipes_
 import 'package:recetas_vivas/infraestructure/repositories/healthy_recipes_repository_impl.dart';
 import 'package:recetas_vivas/presentation/screens/home_screen.dart';
 import 'package:flutter/services.dart';
-import 'package:recetas_vivas/presentation/screens/recipes/providers/recipe_provider.dart';
+import 'package:recetas_vivas/presentation/providers/recipe_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

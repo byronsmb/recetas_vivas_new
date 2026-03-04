@@ -12,7 +12,7 @@ List<Map<String, dynamic>> healthyRecipes = [
   {
     "name": "Pancake de Remolacha",
     "videoUrl": "assets/video/pancakeRemolacha.mp4",
-    "imageUrl": "assets/images/remolacha.jpg",
+    "imageUrl": "assets/images/remolacha.png",
     "ingredientCategory": ["tortitas", "avena"],
     "recipeType": ["desayuno", "cena"],
   },
@@ -33,14 +33,14 @@ List<Map<String, dynamic>> healthyRecipes = [
   {
     "name": "Wrap de espinaca",
     "videoUrl": "assets/video/wrapEspinaca.mp4",
-    "imageUrl": "assets/images/wrapEspinaca.jpg",
+    "imageUrl": "assets/images/wrapEspinaca.png",
     "ingredientCategory": ["huevo", "espinaca", "tortitas", "burrito"],
     "recipeType": ["desayuno", "cena"],
   },
   {
     "name": "Pasta con atún",
     "videoUrl": "assets/video/pastayAtun.mp4",
-    "imageUrl": "assets/images/pastayAtun.jpg",
+    "imageUrl": "assets/images/pastayAtun.png",
     "ingredientCategory": ["pasta", "huevo", "atun"],
     "recipeType": ["almuerzo"],
   },
@@ -68,7 +68,7 @@ List<Map<String, dynamic>> healthyRecipes = [
   {
     "name": "Tostada con huevo",
     "videoUrl": "assets/video/tostadaHuevo.mp4",
-    "imageUrl": "assets/images/tostadaHuevo.jpg",
+    "imageUrl": "assets/images/tostadaHuevo.png",
     "ingredientCategory": ["tostada", "huevo", "aguacate"],
     "recipeType": ["desayuno"],
   },
@@ -110,7 +110,7 @@ List<Map<String, dynamic>> healthyRecipes = [
   {
     "name": "Wrap de pollo",
     "videoUrl": "assets/video/wrapPollo.mp4",
-    "imageUrl": "assets/images/wrapPollo.jpg",
+    "imageUrl": "assets/images/wrapPollo.png",
     "ingredientCategory": ["pollo", "burrito"],
     "recipeType": ["almuerzo", "cena"],
   },
@@ -215,7 +215,7 @@ List<Map<String, dynamic>> healthyRecipes = [
   {
     "name": "Pasta con Pollo",
     "videoUrl": "assets/video/pastaPollo.mp4",
-    "imageUrl": "assets/images/pastaPollo.jpg",
+    "imageUrl": "assets/images/pastaPollo.png",
     "ingredientCategory": ["pasta", "pollo", "brocoli", "yogurGriego"],
     "recipeType": ["almuerzo"],
   },
@@ -733,7 +733,7 @@ List<Map<String, dynamic>> healthyRecipes = [
   {
     'name': 'Pancake de Remolacha',
     'videoUrl': 'assets/video/pancakeRemolacha.mp4',
-    'imageUrl': 'assets/images/remolacha.jpg',
+    'imageUrl': 'assets/images/remolacha.png',
     'ingredientCategory': [
       IngredientCategory.tortitas,
       IngredientCategory.avena,
@@ -761,7 +761,7 @@ List<Map<String, dynamic>> healthyRecipes = [
   {
     'name': 'Wrap de espinaca',
     'videoUrl': 'assets/video/wrapEspinaca.mp4',
-    'imageUrl': 'assets/images/wrapEspinaca.jpg',
+    'imageUrl': 'assets/images/wrapEspinaca.png',
     'ingredientCategory': [
       IngredientCategory.huevo,
       IngredientCategory.espinaca,
@@ -773,7 +773,7 @@ List<Map<String, dynamic>> healthyRecipes = [
   {
     'name': 'Pasta con atún',
     'videoUrl': 'assets/video/pastayAtun.mp4',
-    'imageUrl': 'assets/images/pastayAtun.jpg',
+    'imageUrl': 'assets/images/pastayAtun.png',
     'ingredientCategory': [
       IngredientCategory.pasta,
       IngredientCategory.huevo,
@@ -817,7 +817,7 @@ List<Map<String, dynamic>> healthyRecipes = [
   {
     'name': 'Tostada con huevo',
     'videoUrl': 'assets/video/tostadaHuevo.mp4',
-    'imageUrl': 'assets/images/tostadaHuevo.jpg',
+    'imageUrl': 'assets/images/tostadaHuevo.png',
     'ingredientCategory': [
       IngredientCategory.tostada,
       IngredientCategory.huevo,
@@ -880,7 +880,7 @@ List<Map<String, dynamic>> healthyRecipes = [
   {
     'name': 'Wrap de pollo',
     'videoUrl': 'assets/video/wrapPollo.mp4',
-    'imageUrl': 'assets/images/wrapPollo.jpg',
+    'imageUrl': 'assets/images/wrapPollo.png',
     'ingredientCategory': [
       IngredientCategory.pollo,
       IngredientCategory.burrito,
@@ -1021,7 +1021,7 @@ List<Map<String, dynamic>> healthyRecipes = [
   {
     'name': 'Pasta con Pollo',
     'videoUrl': 'assets/video/pastaPollo.mp4',
-    'imageUrl': 'assets/images/pastaPollo.jpg',
+    'imageUrl': 'assets/images/pastaPollo.png',
     'ingredientCategory': [
       IngredientCategory.pasta,
       IngredientCategory.pollo,
