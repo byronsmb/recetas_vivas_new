@@ -24,7 +24,23 @@ class HomeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              SearchFood(),
+              Container(
+                height: 60,
+                width: double.infinity,
+                child: Row(
+                  children: [
+                    SearchFood(),
+                    const SizedBox(width: 10),
+                    IconButton(
+                      iconSize: 40, // Ajusta el tamaño del botón
+                      icon: Image.asset(
+                        'assets/icons/button_img_icon.png',
+                      ), // Tu imagen desde assets
+                      onPressed: () {},
+                    ),
+                  ],
+                ),
+              ),
               Card(
                 elevation: 8,
                 child: recipeProvider.isLoading
@@ -93,40 +109,34 @@ class _SearchFoodState extends State<SearchFood> {
   final TextEditingController _searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        // Add padding around the search bar
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        // Use a Material design search bar
-        child: TextField(
-          controller: _searchController,
-          decoration: InputDecoration(
-            filled: true,
-            hintText: 'Buscar comida saludable',
+    return Expanded(
+      child: TextField(
+        controller: _searchController,
+        decoration: InputDecoration(
+          filled: true,
+          hintText: 'Buscar comida saludable',
 
-            // Add a search icon or button to the search bar
-            prefixIcon: IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                // Perform the search here
-              },
+          // Add a search icon or button to the search bar
+          prefixIcon: IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              // Perform the search here
+            },
+          ),
+          // Borde cuando NO está enfocado
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30.0),
+            borderSide: BorderSide(
+              color: Colors.transparent, // 👈 color normal
+              //width: 2,
             ),
-            // Borde cuando NO está enfocado
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30.0),
-              borderSide: BorderSide(
-                color: Colors.transparent, // 👈 color normal
-                //width: 2,
-              ),
-            ),
-            // Borde cuando está enfocado
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30.0),
-              borderSide: BorderSide(
-                color: Colors.green, // 👈 color al hacer click
-                width: 2,
-              ),
+          ),
+          // Borde cuando está enfocado
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30.0),
+            borderSide: BorderSide(
+              color: Colors.green, // 👈 color al hacer click
+              width: 2,
             ),
           ),
         ),

@@ -1,6 +1,3 @@
-import 'package:recetas_vivas/domain/enums/ingredient_category.dart';
-import 'package:recetas_vivas/domain/enums/recipe_type.dart';
-
 List<Map<String, dynamic>> healthyRecipes = [
   {
     "name": "Mayonesa",

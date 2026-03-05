@@ -19,7 +19,6 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     //llama a la repositorio y le mandamos el parametro de la fuente de datos
@@ -39,7 +38,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp.router(
         routerConfig: appRouter,
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'Recetas Vivas',
         theme: ThemeData(colorSchemeSeed: Colors.lightGreenAccent),
       ),
     );
