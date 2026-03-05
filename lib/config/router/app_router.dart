@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:recetas_vivas/domain/entities/healthy_recipe.dart';
 import 'package:recetas_vivas/domain/enums/recipe_filter_type.dart';
+import 'package:recetas_vivas/infraestructure/datasources/other_local_recipes_datasource_impl.dart';
+import 'package:recetas_vivas/infraestructure/repositories/other_recipes_repository_impl.dart';
+import 'package:recetas_vivas/presentation/providers/other_recipe_provider.dart';
+import 'package:recetas_vivas/presentation/screens/image/list_images_screen.dart';
 import 'package:recetas_vivas/presentation/screens/screens.dart';
 import 'package:recetas_vivas/presentation/screens/video/fullscreen_player_screen.dart';
 
@@ -43,6 +48,25 @@ final appRouter = GoRouter(
           },
         ),
       ],
+    ),
+
+    GoRoute(
+      path: '/images-list',
+      name: 'images_list', // <--- Nombre de la ruta
+      builder: (context, state) {
+        //Inyección de Dependencias (Service Locator)
+        //Se recomienda usar un "Service Locator" como GetIt. Esto permite que el router solo "pida" la instancia que ya existe, en lugar de fabricarla ahí mismo.
+        final healthyRecipesRepository = OtherRecipesRepositoryImpl(
+          otherRecipesDatasource: OtherLocalRecipesDatasource(),
+        );
+
+        return ChangeNotifierProvider(
+          create: (_) => OtherRecipeProvider(
+            otherRecipesRepository: healthyRecipesRepository,
+          )..loadOtherRecipes(),
+          child: const ListImagesScreen(),
+        );
+      },
     ),
   ],
 );

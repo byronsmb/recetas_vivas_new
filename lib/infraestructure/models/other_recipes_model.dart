@@ -1,4 +1,5 @@
 import 'package:recetas_vivas/domain/entities/other_healthy_recipes.dart';
+import 'package:uuid/uuid.dart';
 
 class OtherRecipesModel {
   final String name;
@@ -14,6 +15,9 @@ class OtherRecipesModel {
   }
 
   // Tu método de conversión a Entidad
-  OtherHealthyRecipes toOtherRecipeEntity() =>
-      OtherHealthyRecipes(name: name, imageUrl: imageUrl);
+  OtherHealthyRecipes toOtherRecipeEntity() => OtherHealthyRecipes(
+    id: const Uuid().v4(),
+    name: name,
+    imageUrl: imageUrl,
+  );
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import 'package:recetas_vivas/domain/entities/healthy_recipe.dart';
@@ -24,7 +25,7 @@ class HomeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Container(
+              SizedBox(
                 height: 60,
                 width: double.infinity,
                 child: Row(
@@ -36,7 +37,9 @@ class HomeScreen extends StatelessWidget {
                       icon: Image.asset(
                         'assets/icons/button_img_icon.png',
                       ), // Tu imagen desde assets
-                      onPressed: () {},
+                      onPressed: () {
+                        context.pushNamed('images_list');
+                      },
                     ),
                   ],
                 ),
