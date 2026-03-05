@@ -6,8 +6,8 @@ import 'package:recetas_vivas/shared/local_recipes_data.dart';
 class LocalHealthyRecipesDatasource implements HealthyRecipesDatasource {
   @override
   Future<List<HealthyRecipe>> getRecipes() async {
-    //simulamos una duracion de 2 segundos
-    await Future.delayed(Duration(seconds: 2));
+    //simulamos una duracion de 1 segundo
+    await Future.delayed(Duration(seconds: 1));
 
     //copiado del provider
     // cuando tenemos peticiones web, aqui es donde vamos a poder camiar esto

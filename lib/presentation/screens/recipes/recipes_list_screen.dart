@@ -1,6 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:recetas_vivas/domain/entities/healthy_recipe.dart';
 import 'package:recetas_vivas/domain/enums/ingredient_category.dart';
@@ -46,9 +46,11 @@ class RecipesListScreen extends StatelessWidget {
 
     //seccion tipo
     if (filterType == RecipeFilterType.type) {
-      //si es categoria
+      //si es tipo
+      //print(filterValue.runtimeType); //tipo de datos
+      //print(RecipeType.values.first.runtimeType); //tipo de datos
       type = RecipeType.values.firstWhere(
-        (e) => e.name == filterValue,
+        (t) => t.name == filterValue,
       ); //filtra tipo de comida (desayuno..)
 
       filteredRecipes = recipes
@@ -60,45 +62,83 @@ class RecipesListScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(category?.label ?? type?.name ?? 'Not found'),
+        title: Text(category?.label ?? type!.name),
       ), //category.label
-      body: MasonryGridView.builder(
-        gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, //columnas
-        ),
-        //crossAxisCount: 2,
-        mainAxisSpacing: 12,
-        crossAxisSpacing: 12,
-        itemCount: filteredRecipes.length,
-        itemBuilder: (context, index) {
-          return Stack(
+      body: recipeProvider.isLoading
+          ? Center(child: CircularProgressIndicator())
+          : filteredRecipes.isEmpty
+          ? _NoRecipesFound(filterValue: filterValue)
+          : RecipeMasonry(
+              filteredRecipes: filteredRecipes,
+              filterType: filterType,
+              category: category,
+              type: type,
+              styleText: styleText,
+            ),
+    );
+  }
+}
+
+class RecipeMasonry extends StatelessWidget {
+  const RecipeMasonry({
+    super.key,
+    required this.filteredRecipes,
+    required this.filterType,
+    required this.category,
+    required this.type,
+    required this.styleText,
+  });
+
+  final List<HealthyRecipe> filteredRecipes;
+  final RecipeFilterType filterType;
+  final IngredientCategory? category;
+  final RecipeType? type;
+  final TextTheme styleText;
+
+  @override
+  Widget build(BuildContext context) {
+    return MasonryGridView.builder(
+      gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2, //columnas
+      ),
+      //crossAxisCount: 2,
+      mainAxisSpacing: 12,
+      crossAxisSpacing: 12,
+      itemCount: filteredRecipes.length,
+      itemBuilder: (context, index) {
+        final currentRecipe = filteredRecipes[index];
+        return InkWell(
+          onTap: () {
+            context.pushNamed(
+              'video_player',
+              pathParameters: {
+                'filterType': filterType.name,
+                'value': category?.name ?? type!.name,
+              },
+              extra: currentRecipe.videoUrl,
+            );
+          },
+          child: Stack(
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: Image.asset(
-                  filteredRecipes[index].imageUrl,
-                  fit: BoxFit.cover,
-                ),
+                child: Image.asset(currentRecipe.imageUrl, fit: BoxFit.cover),
               ),
               GradientVideoBackground(),
               _TitleVideoBackground(
                 styleText: styleText,
-                name: filteredRecipes[index].name,
+                name: currentRecipe.name,
               ),
             ],
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }
 
 class _TitleVideoBackground extends StatelessWidget {
-  const _TitleVideoBackground({
-    super.key,
-    required this.styleText,
-    required this.name,
-  });
+  const _TitleVideoBackground({required this.styleText, required this.name});
 
   final TextTheme styleText;
   final String name;
@@ -114,6 +154,36 @@ class _TitleVideoBackground extends StatelessWidget {
         style: styleText.bodyMedium!.copyWith(color: Colors.white),
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
+      ),
+    );
+  }
+}
+
+class _NoRecipesFound extends StatelessWidget {
+  final String filterValue;
+  const _NoRecipesFound({required this.filterValue});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.restaurant_menu, size: 80, color: Colors.grey[400]),
+            const SizedBox(height: 16),
+            Text(
+              'No hay recetas para "$filterValue"',
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(color: Colors.grey),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
+            const Text('Prueba con otra categoría o ingrediente'),
+          ],
+        ),
       ),
     );
   }

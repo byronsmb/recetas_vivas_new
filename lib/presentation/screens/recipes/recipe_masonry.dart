@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class VideosListScreen extends StatelessWidget {
-  const VideosListScreen({super.key});
+class RecipeMasonry extends StatelessWidget {
+  const RecipeMasonry({super.key});
 
   @override
   Widget build(BuildContext context) {

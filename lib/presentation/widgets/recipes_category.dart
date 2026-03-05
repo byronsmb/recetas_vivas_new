@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:recetas_vivas/domain/entities/healthy_recipe.dart';
 import 'package:recetas_vivas/domain/enums/ingredient_category.dart';
+import 'package:recetas_vivas/domain/enums/recipe_filter_type.dart';
 import 'package:recetas_vivas/presentation/providers/recipe_provider.dart';
 
 class RecipesCategory extends StatelessWidget {
@@ -10,8 +11,6 @@ class RecipesCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final recipeProvider = context.watch<RecipeProvider>();
-    final List<HealthyRecipe> recipes = recipeProvider.recipes;
     final categories =
         IngredientCategory.values
             .toList() //ordenar categorias por nombre
@@ -27,7 +26,14 @@ class RecipesCategory extends StatelessWidget {
 
           return InkWell(
             onTap: () {
-              context.push('/recipes-list/category/${category.name}');
+              context.pushNamed(
+                'recipes_list',
+                pathParameters: {
+                  'filterType': '${RecipeFilterType.category.name}',
+                  'value': category.name,
+                },
+              );
+              //context.push('/recipes-list/category/${category.name}');
             },
             child: Container(
               width: 65,

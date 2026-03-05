@@ -24,7 +24,7 @@ enum IngredientCategory {
     imagePath: 'assets/icons/cream_cheese_icon.png',
   ),
   quinua(label: 'Quinoa', imagePath: 'assets/icons/quinoa_icon.png'),
-  tostada(label: 'Tostada', imagePath: 'assets/icons/avocado_icon.png'),
+  tostada(label: 'Tostada', imagePath: 'assets/icons/toast_icon.png'),
   pepino(label: 'Pepino', imagePath: 'assets/icons/cucumber_icon.png'),
   brocoli(label: 'Brócoli', imagePath: 'assets/icons/broccoli_icon.png'),
   zanahoria(label: 'Zanahoria', imagePath: 'assets/icons/carrot_icon.png'),

@@ -10,6 +10,7 @@ class RecipeProvider extends ChangeNotifier {
   //bool initialLoading = true; // al inicio cuando no hay ingun video
   List<HealthyRecipe> recipes = [];
 
+  bool isLoading = true;
   RecipeProvider({required this.healthyRecipesRepository});
 
   Future<void> loadRecipes() async {
@@ -17,7 +18,7 @@ class RecipeProvider extends ChangeNotifier {
 
     recipes.addAll(newRecipes);
     //initialLoading = false;
-
+    isLoading = false;
     notifyListeners();
   }
 }
