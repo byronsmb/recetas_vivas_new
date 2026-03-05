@@ -28,7 +28,7 @@ class ListImagesScreen extends StatelessWidget {
                 final currentImage = imageRecipes[index];
                 return InkWell(
                   onTap: () {
-                    _gotoImageViewPage(context, currentImage);
+                    _dialogBuilder(context, currentImage);
                   },
                   child: Hero(
                     tag: currentImage.id,
@@ -46,18 +46,29 @@ class ListImagesScreen extends StatelessWidget {
     );
   }
 
-  void _gotoImageViewPage(
+  Future<void> _dialogBuilder(
     BuildContext context,
     OtherHealthyRecipes currentImage,
   ) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (BuildContext context) => Scaffold(
-          appBar: AppBar(title: const Text('Second Page')),
-          body: Center(
-            child: Hero(
-              tag: currentImage.id,
-              child: Image.asset(currentImage.imageUrl),
+    return showDialog(
+      context: context,
+
+      builder: (context) => Dialog(
+        //margen tendrá el diálogo respecto a los bordes de la pantalla
+        insetPadding: EdgeInsets.all(10),
+        backgroundColor: Colors.transparent, // Fondo transparente
+        child: GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: InteractiveViewer(
+            panEnabled: true, // Permite mover la imagen
+            boundaryMargin: EdgeInsets.all(
+              100,
+            ), // Permite "estirar" el borde al hacer zoom
+            minScale: 1, // Zoom mínimo
+            maxScale: 4.0,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.asset(currentImage.imageUrl, fit: BoxFit.cover),
             ),
           ),
         ),
