@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:recetas_vivas/domain/entities/healthy_recipe.dart';
 import 'package:video_player/video_player.dart';
 
 class FullscreenPlayerScreen extends StatefulWidget {
-  final String videoUrl;
+  final HealthyRecipe currentRecipe;
 
-  const FullscreenPlayerScreen({super.key, required this.videoUrl});
+  const FullscreenPlayerScreen({super.key, required this.currentRecipe});
 
   @override
   State<FullscreenPlayerScreen> createState() => _FullscreenPlayerState();
@@ -17,9 +18,9 @@ class _FullscreenPlayerState extends State<FullscreenPlayerScreen> {
   @override
   void initState() {
     super.initState();
-    print('LINK DEL VIDEO ${widget.videoUrl}');
-    _controller = VideoPlayerController.asset(widget.videoUrl)
-      ..setVolume(0)
+
+    _controller = VideoPlayerController.asset(widget.currentRecipe.videoUrl)
+      //..setVolume(0)
       ..setLooping(true);
 
     _initializeVideoFuture = _controller.initialize().then((_) {
@@ -39,7 +40,12 @@ class _FullscreenPlayerState extends State<FullscreenPlayerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('data')),
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        title: Text(widget.currentRecipe.name),
+        backgroundColor: const Color.fromARGB(255, 141, 161, 139),
+        //foregroundColor: color.secondary,
+      ),
       body: FutureBuilder(
         future: _initializeVideoFuture, //_controller.initialize(),
         builder: (context, snapshot) {
@@ -50,6 +56,18 @@ class _FullscreenPlayerState extends State<FullscreenPlayerScreen> {
           }
 
           return GestureDetector(
+            // Al mantener presionado, subimos la velocidad
+            onLongPressStart: (_) {
+              _controller.setPlaybackSpeed(2.0);
+              // Opcional: Podrías mostrar un pequeño texto en pantalla que diga "2x"
+              setState(() {});
+            },
+
+            // 2. Al soltar el dedo, volvemos a la velocidad normal
+            onLongPressEnd: (_) {
+              _controller.setPlaybackSpeed(1.0);
+              setState(() {});
+            },
             //gesture detector para pause y play
             onTap: () {
               //si esta en play se pausa y viceversa
@@ -63,24 +81,62 @@ class _FullscreenPlayerState extends State<FullscreenPlayerScreen> {
             },
             child: AspectRatio(
               aspectRatio: _controller.value.aspectRatio,
-              // Use the VideoPlayer widget to display the video.
+
               child: Stack(
                 children: [
                   VideoPlayer(_controller),
 
                   //play/pause
                   if (!_controller.value.isPlaying)
-                    Center(
-                      child: CircleAvatar(
-                        backgroundColor: const Color.fromARGB(103, 0, 0, 0),
-                        child: Icon(Icons.play_arrow),
+                    _VideoIcon(icon: Icons.play_arrow),
+
+                  // --- INDICADOR DE VELOCIDAD X2 ---
+                  // Si la velocidad es mayor a 1.0 (normal), mostramos el icono
+                  if (_controller.value.playbackSpeed > 1.0)
+                    _VideoIcon(icon: Icons.double_arrow_rounded),
+
+                  // --- BARRA DE PROGRESO ---
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: VideoProgressIndicator(
+                      _controller,
+                      allowScrubbing: true, // Permite arrastrar la barra
+                      colors: VideoProgressColors(
+                        playedColor:
+                            Colors.lightGreenAccent, // Color de lo reproducido
+                        bufferedColor:
+                            Colors.grey, // Color de lo cargado (buffer)
+                        backgroundColor: Colors.black26, // Fondo de la barra
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8,
+                        horizontal: 0,
                       ),
                     ),
+                  ),
                 ],
               ),
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class _VideoIcon extends StatelessWidget {
+  final IconData icon;
+  const _VideoIcon({required this.icon});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: CircleAvatar(
+        radius: 30,
+        backgroundColor: const Color.fromARGB(103, 0, 0, 0),
+        child: Icon(icon, color: Colors.lightGreenAccent, size: 35),
       ),
     );
   }

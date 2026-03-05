@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import 'package:recetas_vivas/domain/entities/healthy_recipe.dart';
 import 'package:recetas_vivas/domain/enums/ingredient_category.dart';
 import 'package:recetas_vivas/domain/enums/recipe_filter_type.dart';
-import 'package:recetas_vivas/presentation/providers/recipe_provider.dart';
 
 class RecipesCategory extends StatelessWidget {
   const RecipesCategory({super.key});
@@ -29,7 +26,7 @@ class RecipesCategory extends StatelessWidget {
               context.pushNamed(
                 'recipes_list',
                 pathParameters: {
-                  'filterType': '${RecipeFilterType.category.name}',
+                  'filterType': RecipeFilterType.category.name,
                   'value': category.name,
                 },
               );

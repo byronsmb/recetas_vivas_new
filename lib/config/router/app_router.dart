@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:recetas_vivas/domain/entities/healthy_recipe.dart';
 import 'package:recetas_vivas/domain/enums/recipe_filter_type.dart';
 import 'package:recetas_vivas/presentation/screens/screens.dart';
 import 'package:recetas_vivas/presentation/screens/video/fullscreen_player_screen.dart';
 
 // GoRouter configuration
 final appRouter = GoRouter(
-  initialLocation: '/',
+  //initialLocation: '/',
   errorBuilder: (context, state) => Scaffold(
     body: Center(child: Text('La ruta ${state.uri.path} no existe.')),
   ),
@@ -36,8 +37,9 @@ final appRouter = GoRouter(
           path: 'video',
           name: 'video_player', // <--- Nombre de la ruta hija
           builder: (context, state) {
-            final url = (state.extra as String?) ?? '';
-            return FullscreenPlayerScreen(videoUrl: url);
+            final HealthyRecipe recipe =
+                (state.extra as HealthyRecipe); // (state.extra as String);
+            return FullscreenPlayerScreen(currentRecipe: recipe);
           },
         ),
       ],

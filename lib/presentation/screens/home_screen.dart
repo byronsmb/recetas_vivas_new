@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:recetas_vivas/domain/entities/healthy_recipe.dart';
+import 'package:recetas_vivas/presentation/providers/recipe_provider.dart';
 import 'package:recetas_vivas/presentation/widgets/recipes_category.dart';
 import 'package:recetas_vivas/presentation/widgets/recipes_type.dart';
 
@@ -9,6 +13,8 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final styleText = Theme.of(context).textTheme;
+    final recipeProvider = context.watch<RecipeProvider>();
+    final List<HealthyRecipe> recipes = recipeProvider.recipes;
 
     return Scaffold(
       body: SafeArea(
@@ -21,39 +27,46 @@ class HomeScreen extends StatelessWidget {
               SearchFood(),
               Card(
                 elevation: 8,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: recipeProvider.isLoading
+                    ? Center(
+                        child: CircularProgressIndicator(
+                          strokeCap: StrokeCap.round,
+                        ),
+                      )
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
 
-                  children: [
-                    Text(
-                      'Receta destacada del dia',
-                      style: styleText.titleLarge!.copyWith(
-                        fontWeight: FontWeight.bold,
+                        children: [
+                          Text(
+                            'Receta destacada del dia',
+                            style: styleText.titleLarge!.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          ClipRRect(
+                            borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(15),
+                            ),
+                            child: Image.asset(
+                              recipes[recipeProvider.randomNumber].imageUrl,
+                              height: size.height * 0.25,
+                              width: size.width,
+
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            recipes[recipeProvider.randomNumber].name,
+                            style: styleText.titleLarge,
+                          ),
+                          Text(
+                            'Fácil y Nutritivo para cualquier día',
+                            style: styleText.titleSmall,
+                          ),
+                          SizedBox(height: 5),
+                        ],
                       ),
-                    ),
-                    ClipRRect(
-                      borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(15),
-                      ),
-                      child: Image.asset(
-                        height: size.height * 0.25,
-                        width: size.width,
-                        'assets/images/arrozColiflor.png',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Bowl de Pollo Mediterráneo',
-                      style: styleText.titleLarge,
-                    ),
-                    Text(
-                      'Fácil y Nutritivo para cualquier día',
-                      style: styleText.titleSmall,
-                    ),
-                    SizedBox(height: 5),
-                  ],
-                ),
               ),
               SizedBox(height: 20),
               Text('Explorar por ingrediente', style: styleText.titleMedium),

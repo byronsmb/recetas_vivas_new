@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:recetas_vivas/config/router/app_router.dart';
 import 'package:recetas_vivas/infraestructure/datasources/local_healthy_recipes_datasource_impl.dart';
 import 'package:recetas_vivas/infraestructure/repositories/healthy_recipes_repository_impl.dart';
-import 'package:recetas_vivas/presentation/screens/home_screen.dart';
+
 import 'package:flutter/services.dart';
 import 'package:recetas_vivas/presentation/providers/recipe_provider.dart';
 
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
         routerConfig: appRouter,
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
-        theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
+        theme: ThemeData(colorSchemeSeed: Colors.lightGreenAccent),
       ),
     );
   }
