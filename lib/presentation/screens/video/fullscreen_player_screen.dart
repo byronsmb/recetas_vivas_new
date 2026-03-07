@@ -79,44 +79,46 @@ class _FullscreenPlayerState extends State<FullscreenPlayerScreen> {
 
               setState(() {});
             },
-            child: AspectRatio(
-              aspectRatio: _controller.value.aspectRatio,
+            child: Center(
+              child: AspectRatio(
+                aspectRatio: _controller.value.aspectRatio,
 
-              child: Stack(
-                children: [
-                  VideoPlayer(_controller),
+                child: Stack(
+                  children: [
+                    VideoPlayer(_controller),
 
-                  //play/pause
-                  if (!_controller.value.isPlaying)
-                    _VideoIcon(icon: Icons.play_arrow),
+                    //play/pause
+                    if (!_controller.value.isPlaying)
+                      _VideoIcon(icon: Icons.play_arrow),
 
-                  // --- INDICADOR DE VELOCIDAD X2 ---
-                  // Si la velocidad es mayor a 1.0 (normal), mostramos el icono
-                  if (_controller.value.playbackSpeed > 1.0)
-                    _VideoIcon(icon: Icons.double_arrow_rounded),
+                    // --- INDICADOR DE VELOCIDAD X2 ---
+                    // Si la velocidad es mayor a 1.0 (normal), mostramos el icono
+                    if (_controller.value.playbackSpeed > 1.0)
+                      _VideoIcon(icon: Icons.double_arrow_rounded),
 
-                  // --- BARRA DE PROGRESO ---
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: VideoProgressIndicator(
-                      _controller,
-                      allowScrubbing: true, // Permite arrastrar la barra
-                      colors: VideoProgressColors(
-                        playedColor:
-                            Colors.lightGreenAccent, // Color de lo reproducido
-                        bufferedColor:
-                            Colors.grey, // Color de lo cargado (buffer)
-                        backgroundColor: Colors.black26, // Fondo de la barra
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 8,
-                        horizontal: 0,
+                    // --- BARRA DE PROGRESO ---
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: VideoProgressIndicator(
+                        _controller,
+                        allowScrubbing: true, // Permite arrastrar la barra
+                        colors: VideoProgressColors(
+                          playedColor: Colors
+                              .lightGreenAccent, // Color de lo reproducido
+                          bufferedColor:
+                              Colors.grey, // Color de lo cargado (buffer)
+                          backgroundColor: Colors.black26, // Fondo de la barra
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 8,
+                          horizontal: 0,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           );

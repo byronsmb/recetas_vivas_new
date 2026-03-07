@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'package:recetas_vivas/domain/entities/healthy_recipe.dart';
 import 'package:recetas_vivas/presentation/providers/recipe_provider.dart';
+import 'package:recetas_vivas/presentation/screens/video/fullscreen_player_screen.dart';
 
 class HomeLargeVideo extends StatelessWidget {
   const HomeLargeVideo({
@@ -58,7 +60,16 @@ class HomeLargeVideo extends StatelessWidget {
           bottom: 5,
           right: 10,
           child: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FullscreenPlayerScreen(
+                    currentRecipe: recipes[recipeProvider.randomNumber],
+                  ),
+                ),
+              );
+            },
             icon: Icon(Icons.play_circle_outline, size: 30),
           ),
         ),
