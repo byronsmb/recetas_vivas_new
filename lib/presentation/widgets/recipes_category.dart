@@ -4,7 +4,8 @@ import 'package:recetas_vivas/domain/enums/ingredient_category.dart';
 import 'package:recetas_vivas/domain/enums/recipe_filter_type.dart';
 
 class RecipesCategory extends StatelessWidget {
-  const RecipesCategory({super.key});
+  final FocusNode focusNode;
+  const RecipesCategory({super.key, required this.focusNode});
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +24,7 @@ class RecipesCategory extends StatelessWidget {
 
           return InkWell(
             onTap: () {
+              focusNode.unfocus();
               context.pushNamed(
                 'recipes_list',
                 pathParameters: {
