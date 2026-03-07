@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'package:recetas_vivas/domain/entities/healthy_recipe.dart';
 import 'package:recetas_vivas/presentation/providers/recipe_provider.dart';
+import 'package:recetas_vivas/presentation/widgets/home_large_video.dart';
 import 'package:recetas_vivas/presentation/widgets/recipes_category.dart';
 import 'package:recetas_vivas/presentation/widgets/recipes_type.dart';
 
@@ -75,40 +76,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                 strokeCap: StrokeCap.round,
                               ),
                             )
-                          : Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-
-                              children: [
-                                Text(
-                                  'Receta destacada del dia',
-                                  style: styleText.titleLarge!.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                ClipRRect(
-                                  borderRadius: const BorderRadius.vertical(
-                                    top: Radius.circular(15),
-                                  ),
-                                  child: Image.asset(
-                                    recipes[recipeProvider.randomNumber]
-                                        .imageUrl,
-                                    height: size.height * 0.25,
-                                    width: size.width,
-
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                SizedBox(height: 10),
-                                Text(
-                                  recipes[recipeProvider.randomNumber].name,
-                                  style: styleText.titleLarge,
-                                ),
-                                Text(
-                                  'Fácil y Nutritivo para cualquier día',
-                                  style: styleText.titleSmall,
-                                ),
-                                SizedBox(height: 5),
-                              ],
+                          : HomeLargeVideo(
+                              styleText: styleText,
+                              recipes: recipes,
+                              recipeProvider: recipeProvider,
+                              size: size,
                             ),
                     ),
                     SizedBox(height: 20),
