@@ -3,10 +3,13 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import 'package:recetas_vivas/domain/entities/healthy_recipe.dart';
+import 'package:recetas_vivas/domain/enums/recipe_filter_type.dart';
 import 'package:recetas_vivas/presentation/providers/recipe_provider.dart';
+import 'package:recetas_vivas/presentation/widgets/bar_search/search_food.dart';
 import 'package:recetas_vivas/presentation/widgets/home_large_video.dart';
 import 'package:recetas_vivas/presentation/widgets/recipes_category.dart';
 import 'package:recetas_vivas/presentation/widgets/recipes_type.dart';
+import 'package:recetas_vivas/presentation/widgets/video/video_thumbnail_masonry.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,11 +20,18 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final FocusNode _focusNode = FocusNode();
+  String searchText = "";
 
   @override
   void dispose() {
     _focusNode.dispose();
     super.dispose();
+  }
+
+  void updateState(String text) {
+    setState(() {
+      searchText = text;
+    });
   }
 
   @override
@@ -31,11 +41,18 @@ class _HomeScreenState extends State<HomeScreen> {
     final recipeProvider = context.watch<RecipeProvider>();
     final List<HealthyRecipe> recipes = recipeProvider.recipes;
 
+    final filteredRecipes = recipes.where((recipe) {
+      return recipe.name.toLowerCase().contains(searchText.toLowerCase());
+    }).toList();
+
     return GestureDetector(
       onTap: () => _focusNode.unfocus(),
       child: Scaffold(
         appBar: AppBar(
-          title: SearchFood(focusNode: _focusNode),
+          title: SearchFood(
+            focusNode: _focusNode,
+            onPressed: (value) => updateState(value),
+          ),
           actions: [
             IconButton(
               iconSize: 40, // Ajusta el tamaño del botón
@@ -48,104 +65,79 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight:
-                    MediaQuery.of(context).size.height -
-                    kToolbarHeight -
-                    MediaQuery.of(context).padding.top -
-                    MediaQuery.of(context).padding.bottom,
+        body: searchText.isEmpty
+            ? MainSection(
+                recipeProvider: recipeProvider,
+                styleText: styleText,
+                recipes: recipes,
+                size: size,
+                focusNode: _focusNode,
+              )
+            : VideoThumbnailMasonry(
+                filteredRecipes: filteredRecipes,
+                filterType: RecipeFilterType.category,
+                styleText: styleText,
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Card(
-                    elevation: 8,
-                    child: recipeProvider.isLoading
-                        ? Center(
-                            child: CircularProgressIndicator(
-                              strokeCap: StrokeCap.round,
-                            ),
-                          )
-                        : HomeLargeVideo(
-                            styleText: styleText,
-                            recipes: recipes,
-                            recipeProvider: recipeProvider,
-                            size: size,
-                          ),
-                  ),
-                  SizedBox(height: 20),
-                  Text(
-                    'Explorar por ingrediente',
-                    style: styleText.titleMedium,
-                  ),
-                  RecipesCategory(focusNode: _focusNode),
-                  SizedBox(height: 15),
-                  Text('Categorias populares', style: styleText.titleMedium),
-                  RecipesType(),
-                ],
-              ),
-            ),
-          ),
-        ),
       ),
     );
   }
 }
 
-class SearchFood extends StatefulWidget {
-  final FocusNode focusNode;
-  const SearchFood({super.key, required this.focusNode});
+class MainSection extends StatelessWidget {
+  const MainSection({
+    super.key,
+    required this.recipeProvider,
+    required this.styleText,
+    required this.recipes,
+    required this.size,
+    required FocusNode focusNode,
+  }) : _focusNode = focusNode;
 
-  @override
-  State<SearchFood> createState() => _SearchFoodState();
-}
-
-class _SearchFoodState extends State<SearchFood> {
-  final TextEditingController _searchController = TextEditingController();
-
-  @override
-  void dispose() {
-    // 2. Limpiamos AMBOS para evitar fugas de memoria
-    _searchController.dispose();
-
-    super.dispose();
-  }
+  final RecipeProvider recipeProvider;
+  final TextTheme styleText;
+  final List<HealthyRecipe> recipes;
+  final Size size;
+  final FocusNode _focusNode;
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: _searchController,
-      focusNode: widget.focusNode,
-      decoration: InputDecoration(
-        filled: true,
-        hintText: 'Buscar comida saludable',
-
-        // Add a search icon or button to the search bar
-        prefixIcon: IconButton(
-          icon: Icon(Icons.search),
-          onPressed: () {
-            // Perform the search here
-          },
-        ),
-        // Borde cuando NO está enfocado
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.0),
-          borderSide: BorderSide(
-            color: Colors.transparent, // 👈 color normal
-            //width: 2,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: SingleChildScrollView(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight:
+                MediaQuery.of(context).size.height -
+                kToolbarHeight -
+                MediaQuery.of(context).padding.top -
+                MediaQuery.of(context).padding.bottom,
           ),
-        ),
-        // Borde cuando está enfocado
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.0),
-          borderSide: BorderSide(
-            color: Colors.green, // 👈 color al hacer click
-            width: 2,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Card(
+                elevation: 8,
+                child: recipeProvider.isLoading
+                    ? Center(
+                        child: CircularProgressIndicator(
+                          strokeCap: StrokeCap.round,
+                        ),
+                      )
+                    : HomeLargeVideo(
+                        styleText: styleText,
+                        recipes: recipes,
+                        recipeProvider: recipeProvider,
+                        size: size,
+                      ),
+              ),
+              SizedBox(height: 20),
+              Text('Explorar por ingrediente', style: styleText.titleMedium),
+              RecipesCategory(focusNode: _focusNode),
+              SizedBox(height: 15),
+              Text('Categorias populares', style: styleText.titleMedium),
+              RecipesType(),
+            ],
           ),
         ),
       ),

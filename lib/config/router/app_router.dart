@@ -26,15 +26,20 @@ final appRouter = GoRouter(
       path: '/recipes-list/:filterType/:value',
       name: 'recipes_list', // <--- Nombre de la ruta
       builder: (context, state) {
-        final filterTypeString = state.pathParameters['filterType']!;
-        final value = state.pathParameters['value']!;
+        final filterTypeString =
+            state.pathParameters['filterType']!; //category o type
+        final value =
+            state.pathParameters['value']!; // atun, avena... desayuno...
 
         final filterType = RecipeFilterType.values.firstWhere(
+          //type o category
           (e) => e.name == filterTypeString,
           //orElse: () => RecipeFilterType.category,
         );
 
         return RecipesListScreen(filterType: filterType, filterValue: value);
+
+        ///recipes-list/category/avena
       },
       //ruta hija
       routes: [
@@ -48,6 +53,16 @@ final appRouter = GoRouter(
           },
         ),
       ],
+    ),
+
+    GoRoute(
+      //ruta directa sin categorias ni tipo (para busqueda)
+      path: '/recipes-list/video',
+      name: 'video_player_all',
+      builder: (context, state) {
+        final recipe = state.extra as HealthyRecipe;
+        return FullscreenPlayerScreen(currentRecipe: recipe);
+      },
     ),
 
     GoRoute(

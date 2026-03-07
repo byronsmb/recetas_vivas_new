@@ -11,14 +11,14 @@ class VideoThumbnailMasonry extends StatelessWidget {
   const VideoThumbnailMasonry({
     super.key,
     required this.filteredRecipes,
-    required this.filterType,
-    required this.category,
-    required this.type,
+    this.filterType,
+    this.category,
+    this.type,
     required this.styleText,
   });
 
   final List<HealthyRecipe> filteredRecipes;
-  final RecipeFilterType filterType;
+  final RecipeFilterType? filterType;
   final IngredientCategory? category;
   final RecipeType? type;
   final TextTheme styleText;
@@ -37,14 +37,19 @@ class VideoThumbnailMasonry extends StatelessWidget {
         final currentRecipe = filteredRecipes[index];
         return InkWell(
           onTap: () {
-            context.pushNamed(
-              'video_player',
-              pathParameters: {
-                'filterType': filterType.name,
-                'value': category?.name ?? type!.name,
-              },
-              extra: currentRecipe,
-            );
+            if (category == null) {
+              context.pushNamed('video_player_all', extra: currentRecipe);
+            } else {
+              context.pushNamed(
+                'video_player',
+                pathParameters: {
+                  'filterType': filterType!.name, //category o type
+                  'value':
+                      category?.name ?? type!.name, //avena...n/ desayuno...
+                },
+                extra: currentRecipe,
+              );
+            }
           },
           child: Stack(
             children: [

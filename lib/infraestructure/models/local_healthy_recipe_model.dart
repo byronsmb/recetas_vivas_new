@@ -13,8 +13,8 @@ class LocalHealthyRecipeModel {
     required this.name,
     required this.videoUrl,
     required this.imageUrl,
-    required this.ingredientCategories,
-    required this.recipeTypes,
+    this.ingredientCategories = const [],
+    this.recipeTypes = const [],
   });
 
   factory LocalHealthyRecipeModel.fromJson(Map<String, dynamic> json) {
