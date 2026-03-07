@@ -16,6 +16,8 @@ class ListImagesScreen extends StatelessWidget {
       appBar: AppBar(),
       body: otherRecipeProvider.isLoading
           ? Center(child: CircularProgressIndicator())
+          : imageRecipes.isEmpty
+          ? _NoRecipesFound()
           : MasonryGridView.builder(
               gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2, //columnas
@@ -71,6 +73,33 @@ class ListImagesScreen extends StatelessWidget {
               child: Image.asset(currentImage.imageUrl, fit: BoxFit.cover),
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _NoRecipesFound extends StatelessWidget {
+  //const _NoRecipesFound({});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.restaurant_menu, size: 80, color: Colors.grey[400]),
+            const SizedBox(height: 16),
+            Text(
+              'No hay recetas disponibles',
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(color: Colors.grey),
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
       ),
     );

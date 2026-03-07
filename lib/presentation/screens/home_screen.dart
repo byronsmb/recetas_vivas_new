@@ -36,79 +36,93 @@ class _HomeScreenState extends State<HomeScreen> {
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SizedBox(
-                  height: 60,
-                  width: double.infinity,
-                  child: Row(
-                    children: [
-                      SearchFood(focusNode: _focusNode),
-                      const SizedBox(width: 10),
-                      IconButton(
-                        iconSize: 40, // Ajusta el tamaño del botón
-                        icon: Image.asset(
-                          'assets/icons/button_img_icon.png',
-                        ), // Tu imagen desde assets
-                        onPressed: () {
-                          context.pushNamed('images_list');
-                        },
-                      ),
-                    ],
-                  ),
+            child: SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight:
+                      MediaQuery.of(context).size.height -
+                      MediaQuery.of(context).padding.top -
+                      MediaQuery.of(context).padding.bottom,
                 ),
-                Card(
-                  elevation: 8,
-                  child: recipeProvider.isLoading
-                      ? Center(
-                          child: CircularProgressIndicator(
-                            strokeCap: StrokeCap.round,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(
+                      height: 60,
+                      width: double.infinity,
+                      child: Row(
+                        children: [
+                          SearchFood(focusNode: _focusNode),
+                          const SizedBox(width: 10),
+                          IconButton(
+                            iconSize: 40, // Ajusta el tamaño del botón
+                            icon: Image.asset(
+                              'assets/icons/button_img_icon.png',
+                            ), // Tu imagen desde assets
+                            onPressed: () {
+                              context.pushNamed('images_list');
+                            },
                           ),
-                        )
-                      : Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        ],
+                      ),
+                    ),
+                    Card(
+                      elevation: 8,
+                      child: recipeProvider.isLoading
+                          ? Center(
+                              child: CircularProgressIndicator(
+                                strokeCap: StrokeCap.round,
+                              ),
+                            )
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
 
-                          children: [
-                            Text(
-                              'Receta destacada del dia',
-                              style: styleText.titleLarge!.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            ClipRRect(
-                              borderRadius: const BorderRadius.vertical(
-                                top: Radius.circular(15),
-                              ),
-                              child: Image.asset(
-                                recipes[recipeProvider.randomNumber].imageUrl,
-                                height: size.height * 0.25,
-                                width: size.width,
+                              children: [
+                                Text(
+                                  'Receta destacada del dia',
+                                  style: styleText.titleLarge!.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                ClipRRect(
+                                  borderRadius: const BorderRadius.vertical(
+                                    top: Radius.circular(15),
+                                  ),
+                                  child: Image.asset(
+                                    recipes[recipeProvider.randomNumber]
+                                        .imageUrl,
+                                    height: size.height * 0.25,
+                                    width: size.width,
 
-                                fit: BoxFit.cover,
-                              ),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  recipes[recipeProvider.randomNumber].name,
+                                  style: styleText.titleLarge,
+                                ),
+                                Text(
+                                  'Fácil y Nutritivo para cualquier día',
+                                  style: styleText.titleSmall,
+                                ),
+                                SizedBox(height: 5),
+                              ],
                             ),
-                            SizedBox(height: 10),
-                            Text(
-                              recipes[recipeProvider.randomNumber].name,
-                              style: styleText.titleLarge,
-                            ),
-                            Text(
-                              'Fácil y Nutritivo para cualquier día',
-                              style: styleText.titleSmall,
-                            ),
-                            SizedBox(height: 5),
-                          ],
-                        ),
+                    ),
+                    SizedBox(height: 20),
+                    Text(
+                      'Explorar por ingrediente',
+                      style: styleText.titleMedium,
+                    ),
+                    RecipesCategory(focusNode: _focusNode),
+                    SizedBox(height: 15),
+                    Text('Categorias populares', style: styleText.titleMedium),
+                    RecipesType(),
+                  ],
                 ),
-                SizedBox(height: 20),
-                Text('Explorar por ingrediente', style: styleText.titleMedium),
-                RecipesCategory(focusNode: _focusNode),
-                SizedBox(height: 15),
-                Text('Categorias populares', style: styleText.titleMedium),
-                RecipesType(),
-              ],
+              ),
             ),
           ),
         ),
