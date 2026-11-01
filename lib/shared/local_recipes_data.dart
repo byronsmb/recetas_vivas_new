@@ -891,7 +891,7 @@ List<Map<String, dynamic>> healthyRecipes = [
     "name": "Avena trasnochada con maracuyá",
     "videoUrl": "assets/video/avena_maracuya.mp4",
     "imageUrl": "assets/images/avena_maracuya.png",
-    "ingredientCategory": ["yogurGriego", "avena", "platano"],
+    "ingredientCategory": ["yogurGriego", "avena", "banano"],
     "recipeType": ["desayuno"],
   },
 
