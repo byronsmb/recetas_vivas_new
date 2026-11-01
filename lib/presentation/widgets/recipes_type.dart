@@ -26,7 +26,7 @@ class RecipesType extends StatelessWidget {
                 context.pushNamed(
                   'recipes_list',
                   pathParameters: {
-                    'filterType': '${RecipeFilterType.type.name}',
+                    'filterType': RecipeFilterType.type.name,
                     'value': type[index].name,
                   },
                 );

@@ -101,46 +101,52 @@ class MainSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: SingleChildScrollView(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            minHeight:
-                MediaQuery.of(context).size.height -
-                kToolbarHeight -
-                MediaQuery.of(context).padding.top -
-                MediaQuery.of(context).padding.bottom,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Card(
-                elevation: 8,
-                child: recipeProvider.isLoading
-                    ? Center(
-                        child: CircularProgressIndicator(
-                          strokeCap: StrokeCap.round,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SingleChildScrollView(
+          physics:
+              const ClampingScrollPhysics(), //evita el rebote extra en scroll
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              // minHeight es el alto máximo
+              minHeight: constraints.maxHeight,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Card(
+                  elevation: 8,
+                  child: recipeProvider.isLoading
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            strokeCap: StrokeCap.round,
+                          ),
+                        )
+                      : HomeLargeVideo(
+                          styleText: styleText,
+                          recipes: recipes,
+                          recipeProvider: recipeProvider,
+                          size: size,
                         ),
-                      )
-                    : HomeLargeVideo(
-                        styleText: styleText,
-                        recipes: recipes,
-                        recipeProvider: recipeProvider,
-                        size: size,
-                      ),
-              ),
-              SizedBox(height: 20),
-              Text('Explorar por ingrediente', style: styleText.titleMedium),
-              RecipesCategory(focusNode: _focusNode),
-              SizedBox(height: 15),
-              Text('Categorias populares', style: styleText.titleMedium),
-              RecipesType(),
-            ],
+                ),
+                SizedBox(height: 20),
+                Text('Explorar por ingrediente', style: styleText.titleMedium),
+                RecipesCategory(focusNode: _focusNode),
+                SizedBox(height: 15),
+                Text('Categorias populares', style: styleText.titleMedium),
+                Padding(
+                  // que los botones no quden debajo del "home" inferior del telefono
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).padding.bottom,
+                  ),
+                  child: RecipesType(),
+                ),
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

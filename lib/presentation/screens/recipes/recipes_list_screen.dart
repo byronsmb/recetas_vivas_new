@@ -9,7 +9,7 @@ import 'package:recetas_vivas/presentation/providers/recipe_provider.dart';
 
 import 'package:recetas_vivas/presentation/widgets/video/video_thumbnail_masonry.dart';
 
-class RecipesListScreen extends StatelessWidget {
+class RecipesListScreen extends StatefulWidget {
   final RecipeFilterType filterType;
   final String filterValue;
 
@@ -20,60 +20,80 @@ class RecipesListScreen extends StatelessWidget {
   });
 
   @override
+  State<RecipesListScreen> createState() => _RecipesListScreenState();
+}
+
+class _RecipesListScreenState extends State<RecipesListScreen> {
+  List<HealthyRecipe> _filteredRecipes = [];
+  List<HealthyRecipe>?
+  _lastRecipesRef; // referencia a la última lista de "recipes" ya procesada
+  IngredientCategory? _category;
+  RecipeType? _type;
+
+  void _computeFilteredRecipes(List<HealthyRecipe> recipes) {
+    // Si "recipes" sigue siendo la misma instancia que la última vez, no recalculamos nada.
+    // Esto evita generar una lista nueva en cada rebuild y perder el scroll del masonry.
+    if (identical(_lastRecipesRef, recipes)) return;
+
+    _lastRecipesRef = recipes;
+
+    //seccion categoria
+    if (widget.filterType == RecipeFilterType.category) {
+      //si es categoria
+      _category = IngredientCategory.values.firstWhere(
+        (e) => e.name == widget.filterValue,
+      ); //filtra tipo de categoria
+
+      _filteredRecipes = recipes
+          .where(
+            (recipe) => recipe.ingredientCategories.contains(_category),
+          ) //guarda todos los elementos del tipo de categoria en una lista
+          .toList()
+          .reversed //videos mas nuevos primero
+          .toList();
+      ;
+    }
+
+    //seccion tipo
+    if (widget.filterType == RecipeFilterType.type) {
+      //si es tipo
+      //print(filterValue.runtimeType); //tipo de datos
+      //print(RecipeType.values.first.runtimeType); //tipo de datos
+      _type = RecipeType.values.firstWhere(
+        (t) => t.name == widget.filterValue,
+      ); //filtra tipo de comida (desayuno..)
+
+      _filteredRecipes = recipes
+          .where(
+            (recipe) => recipe.recipeTypes.contains(_type),
+          ) //guarda todos los elementos del tipo de categoria en una lista
+          .toList();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final styleText = Theme.of(context).textTheme;
 
     final recipeProvider = context.watch<RecipeProvider>();
     final List<HealthyRecipe> recipes = recipeProvider.recipes;
 
-    IngredientCategory? category;
-    RecipeType? type;
-    List<HealthyRecipe> filteredRecipes = [];
-
-    //seccion categoria
-    if (filterType == RecipeFilterType.category) {
-      //si es categoria
-      category = IngredientCategory.values.firstWhere(
-        (e) => e.name == filterValue,
-      ); //filtra tipo de categoria
-
-      filteredRecipes = recipes
-          .where(
-            (recipe) => recipe.ingredientCategories.contains(category),
-          ) //guarda todos los elementos del tipo de categoria en una lista
-          .toList();
-    }
-
-    //seccion tipo
-    if (filterType == RecipeFilterType.type) {
-      //si es tipo
-      //print(filterValue.runtimeType); //tipo de datos
-      //print(RecipeType.values.first.runtimeType); //tipo de datos
-      type = RecipeType.values.firstWhere(
-        (t) => t.name == filterValue,
-      ); //filtra tipo de comida (desayuno..)
-
-      filteredRecipes = recipes
-          .where(
-            (recipe) => recipe.recipeTypes.contains(type),
-          ) //guarda todos los elementos del tipo de categoria en una lista
-          .toList();
-    }
+    _computeFilteredRecipes(recipes);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(category?.label ?? type!.name),
+        title: Text(_category?.label ?? _type!.name),
         backgroundColor: Colors.blueGrey[100],
       ), //category.label
       body: recipeProvider.isLoading
           ? Center(child: CircularProgressIndicator())
-          : filteredRecipes.isEmpty
-          ? _NoRecipesFound(filterValue: filterValue)
+          : _filteredRecipes.isEmpty
+          ? _NoRecipesFound(filterValue: widget.filterValue)
           : VideoThumbnailMasonry(
-              filteredRecipes: filteredRecipes,
-              filterType: filterType,
-              category: category,
-              type: type,
+              filteredRecipes: _filteredRecipes,
+              filterType: widget.filterType,
+              category: _category,
+              type: _type,
               styleText: styleText,
             ),
     );

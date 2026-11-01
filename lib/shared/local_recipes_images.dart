@@ -64,4 +64,24 @@ List<Map<String, dynamic>> otherImageRecipes = [
     "name": "Omelette de huevo",
     "imageUrl": "assets/images/imagesSection/omeletteHuevo.jpeg",
   },
+  {
+    "name": "Wrap de pavo y queso",
+    "imageUrl": "assets/images/imagesSection/wrapPavoQueso.png",
+  },
+  {
+    "name": "Wrap de carne asada",
+    "imageUrl": "assets/images/imagesSection/wrapCarneAsada.png",
+  },
+  {
+    "name": "Wrap de pollo ranch",
+    "imageUrl": "assets/images/imagesSection/wrapPolloRanch.png",
+  },
+  {
+    "name": "Wrap de huevo y queso",
+    "imageUrl": "assets/images/imagesSection/wrapHuevoQueso.png",
+  },
+  {
+    "name": "Wrap de atun y chipotle",
+    "imageUrl": "assets/images/imagesSection/wrapAtunChipotle.png",
+  },
 ];
